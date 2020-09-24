@@ -1,2 +1,0 @@
-# FinzlyLoanManagement
-Loan Management Application
