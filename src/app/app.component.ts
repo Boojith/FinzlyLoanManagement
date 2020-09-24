@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'FinzlyLoanManagement';
+
+  constructor (private authService:AuthService, 
+    private router:Router) {
+}
+
+logout() {
+  console.log('logout');
+this.authService.logoutUser();
+this.router.navigate(['login']);
+}
+
 }
