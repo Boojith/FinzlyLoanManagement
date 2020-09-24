@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "FinzlyLoanManagement"
+    }
+  },
+  "defaultProject": "FinzlyLoanManagement",
+  "cli": {
+    "analytics": false
+  }
 }
