@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Loan } from '../models/loan';
 import { Customer } from '../models/customer';
@@ -10,31 +10,34 @@ import { PaymentSchedule } from '../models/paymentSchedule';
 })
 export class LoanService {
 
-  private baseUrl = 'http://localhost:8080/api/';  
-  
-  constructor(private http:HttpClient) { }  
-  
-  getLoanList(customerId: string): Observable<Loan[]> {  
-    return this.http.get<Loan[]>(`${this.baseUrl}`+'/loans/'+`${customerId}`); 
-  }
-  getCustomerDetails(customerId: string): Observable<Customer> {  
-    return this.http.get<Customer>(`${this.baseUrl}`+'/customer/'+`${customerId}`); 
-  }  
+  private baseUrl = 'http://localhost:8080/api/';
 
-  getPaymentSchedule(loanId: string): Observable<PaymentSchedule[]> {  
-    return this.http.get<PaymentSchedule[]>(`${this.baseUrl}`+'/loan/paymentSchedule/'+`${loanId}`); 
+  constructor(private http: HttpClient) { }
+
+  getLoanList(customerId: string): Observable<Loan[]> {
+    return this.http.get<Loan[]>(`${this.baseUrl}` + '/loans/' + `${customerId}`);
+  }
+  getCustomerDetails(customerId: string): Observable<Customer> {
+    return this.http.get<Customer>(`${this.baseUrl}` + '/customer/' + `${customerId}`);
   }
 
-  saveLoan(loan: object): Observable<Loan> {  
-    //console.log(this.http.post<Loan>(`${this.baseUrl}`+'/loan', loan));
-    console.log(`${this.baseUrl}`+'/loan');
-    return this.http.post<Loan>(`${this.baseUrl}`+'/loan', loan);  
+  getPaymentSchedule(loanId: string): Observable<PaymentSchedule[]> {
+    return this.http.get<PaymentSchedule[]>(`${this.baseUrl}` + '/loan/paymentSchedule/' + `${loanId}`);
   }
-  
-  saveCustomer(customer: Customer): Observable<Customer> {  
-    //console.log(this.http.post<Loan>(`${this.baseUrl}`+'/loan', loan));
-    console.log(`${this.baseUrl}`+'/add-customer');
-    return this.http.post<Customer>(`${this.baseUrl}`+'/add-customer', customer);  
-  }  
-  
+
+  saveLoan(loan: object): Observable<Loan> {
+    return this.http.post<Loan>(`${this.baseUrl}` + '/loan', loan);
+  }
+
+  saveCustomer(customer: Customer): Observable<Customer> {
+    return this.http.post<Customer>(`${this.baseUrl}` + '/add-customer', customer);
+  }
+  verifyCustomer(email: string, password: string): Observable<Customer> {
+    let params = new HttpParams();
+    params = params.append('email', email);
+    params = params.append('password', password);
+
+    return this.http.get<Customer>(`${this.baseUrl}` + '/verify-customer', { params: params });
+  }
+
 }

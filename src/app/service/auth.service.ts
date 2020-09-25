@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { LoanService } from './loan.service';
+import { Customer } from '../models/customer';
 
 
 
@@ -7,20 +9,19 @@ import { Observable, of } from 'rxjs';
 export class AuthService {
 
   private isloggedIn: boolean;
-  private userName: string;
+  private customer: Customer;
 
-  constructor() {
+  constructor(private loanService: LoanService) {
     this.isloggedIn = false;
   }
 
   login(username: string, password: string) {
-
-    //Assuming users are provided the correct credentials.
-    //In real app you will query the database to verify.
-    if(username=='boojith22@gmail.com' && password=='boojith'){
-      this.isloggedIn = true;
-    }
-    this.userName = username;
+    this.loanService.verifyCustomer(username, password).subscribe(data => {
+      this.customer = data;
+      if (this.customer.customerId != null) {
+        this.isloggedIn = true;
+      }
+    });
     return of(this.isloggedIn);
   }
 
@@ -28,11 +29,8 @@ export class AuthService {
     return this.isloggedIn;
   }
 
-  isAdminUser(): boolean {
-    if (this.userName == 'Admin') {
-      return true;
-    }
-    return false;
+  getCustomerId(): string {
+    return this.customer.customerId;
   }
 
   logoutUser(): void {

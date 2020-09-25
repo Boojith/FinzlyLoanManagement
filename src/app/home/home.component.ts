@@ -3,6 +3,7 @@ import { Loan } from '../models/loan';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoanService } from '../service/loan.service';
+import { AuthService } from '../service/auth.service';
 
 
 const Loans: Loan[] = [
@@ -45,12 +46,14 @@ const Loans: Loan[] = [
 })
 export class HomeComponent implements OnInit {
   loans:Loan[];
-  constructor(private router: Router,private loanService:LoanService) {
+  customerId:string;
+  constructor(private router: Router,private loanService:LoanService,private authService:AuthService) {
     
    }
 
   ngOnInit(): void {
-    this.loanService.getLoanList('CUS8743').subscribe(data =>{  
+    this.customerId=this.authService.getCustomerId();
+    this.loanService.getLoanList(this.customerId).subscribe(data =>{  
       this.loans =data;  
       console.log(data);
       })  

@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
            console.log( 'return to '+ this.retUrl);
            if (this.retUrl!=null) {
                 this.router.navigate( [this.retUrl]);
-           } else {
+           } else if(this.retUrl==null|| data==false){
                 this.router.navigate( ['home']);
            }
        });

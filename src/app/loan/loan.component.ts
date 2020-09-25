@@ -1,6 +1,10 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoanService } from '../service/loan.service';
+import { Router } from '@angular/router';
+import { Loan } from '../models/loan';
+import { DatePipe } from '@angular/common';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-loan',
@@ -10,20 +14,22 @@ import { LoanService } from '../service/loan.service';
 export class LoanComponent implements OnInit {
 
   loanForm: FormGroup;
+  customerId:string;
+  loan: Loan = new Loan();
   submitted = false;
   today = new Date();
   range: number;
   date: Date;
   paymentSchedule: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private loanService: LoanService) { }
+  constructor(private formBuilder: FormBuilder, private loanService: LoanService, private router: Router,private authService:AuthService) { }
   ngOnInit() {
+    this.customerId=this.authService.getCustomerId();
     this.loanForm = this.formBuilder.group({
-      customerId: [{ value: 'CUB13566', disabled: true }],
-      // loanId: [{ value: 'LUS13566', disabled: true }],
+      customerId: [{ value:this.customerId, disabled: true }],
       loanAmount: ['', [Validators.required, Validators.max(10000000), Validators.min(1000)]],
-      tradeDate: [this.today],
-      startDate: [this.today],
+      tradeDate: [Validators.required],
+      startDate: [Validators.required],
       loanDuration: [''],
       maturityDate: [{ value: new Date(), disabled: true }],
       interestRate: [{ value: 10, disabled: true }],
@@ -32,25 +38,23 @@ export class LoanComponent implements OnInit {
       paymentTerm: ['', [Validators.required]],
       projectedInterest: [0, []],
     });
-    this.loanForm.get('customerId').setValue('CUB13566');
-    
-  
-
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loanForm.controls; }
 
 
   setMaturityDate(event) {
-    var range = event.target.value;
+    var range = (event.target.value) * 12;
     var startDate = this.loanForm.get('startDate').value;
+
+    this.date=new Date();
+    // let latest_date =this.datepipe.transform(this.date, 'yyyy-MM-dd');
     // var start=new Date(startDate[0], startDate[1] - 1, startDate[2])
     // console.log("Start Date:"+startDate);
     // console.log("Maturity Date:"+new Date(start.setMonth(new Date().getMonth() +  parseInt(range))));   
     if (range != 0) {
       this.loanForm.patchValue({
-        maturityDate: new Date(new Date().setMonth(new Date().getMonth() + parseInt(range))).toISOString().substring(0, 10)
+        maturityDate: new Date(new Date().setMonth(new Date().getMonth() + range)).toISOString().substring(0, 10)
       });
     }
 
@@ -60,13 +64,11 @@ export class LoanComponent implements OnInit {
 
 
   calculatepaymentSchedule(event) {
-    var totalMonths = this.loanForm.get('loanDuration').value;
-    console.log(totalMonths);
+    var totalMonths = parseInt(this.loanForm.get('loanDuration').value) * 12;
     var target = event.target;
     if (target.checked) {
       if (target.value == "Monthly") {
         this.paymentSchedule = totalMonths;
-        console.log(this.paymentSchedule);
       } else if (target.value == "Quarterly") {
         this.paymentSchedule = totalMonths / 3;
       } else if (target.value == "Half Yearly") {
@@ -84,20 +86,15 @@ export class LoanComponent implements OnInit {
     console.log(event.target.value);
     var value = event.target.value;
     var principal = this.loanForm.get('loanAmount').value;
-    var totalMonths = this.loanForm.get('loanDuration').value;
+    var totalYears = this.loanForm.get('loanDuration').value;
     var interestRate = this.loanForm.get('interestRate').value;
     var paymentSchedule = this.loanForm.get('paymentSchedule').value;
 
-    if (value == 'Interest Only') {
-      var interestAmount = (principal * (totalMonths/12) * interestRate) / 100 ;
-    } else if (value == 'Even Principal') {
-      var i;
+    if (value != undefined) {
       var interestAmount = 0;
-      for (i = 1; i <= paymentSchedule; i++) {
-        interestAmount= interestAmount+(principal * ((totalMonths/paymentSchedule)/12) * interestRate) / 100;
-        console.log('Interest'+i+'='+interestAmount);
-        principal=principal-(principal/paymentSchedule);
-
+      for (var i = 1; i <= paymentSchedule; i++) {
+        interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
+        principal = principal - (principal / paymentSchedule);
       }
     }
 
@@ -109,15 +106,32 @@ export class LoanComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log("Form value:"+this.loanForm.value);
-    console.log("Form Raw value:"+this.loanForm.getRawValue());
-    if (this.loanForm.invalid) {    
-      console.log('Form is invalid');
+    if (this.loanForm.invalid) {
       return;
     }
-    this.loanService.saveLoan(this.loanForm.value).subscribe(data => {
+    this.loan.customerId = this.loanForm.get('customerId').value;
+    this.loan.loanAmount = this.loanForm.get('loanAmount').value;
+    this.loan.tradeDate = this.loanForm.get('tradeDate').value;
+    this.loan.startDate = this.loanForm.get('startDate').value;
+    this.loan.loanDuration = this.loanForm.get('loanDuration').value;
+    this.loan.maturityDate = this.loanForm.get('maturityDate').value;
+    this.loan.interestRate = this.loanForm.get('interestRate').value;
+    this.loan.paymentFrequency = this.loanForm.get('paymentFrequency').value;
+    this.loan.paymentSchedule = this.loanForm.get('paymentSchedule').value;
+    this.loan.paymentTerm = this.loanForm.get('paymentTerm').value;
+    this.loan.projectedInterest = this.loanForm.get('projectedInterest').value;
+    
+    console.log(this.loan);
+
+
+    this.loanService.saveLoan(this.loan).subscribe(data => {
       console.log('Save Loan:' + data);
     });
-    this.loanForm.reset();
+    this.router.navigate(['home']);
   }
+
+  onReset() {
+    this.submitted = false;
+    this.loanForm.reset();
+}
 }

@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './service/auth.service';
 import { AuthGuardService } from './service/auth-guard.service';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthGuardService } from './service/auth-guard.service';
     PaymentScheduleComponent,
     HomeComponent,
     ApplyLoanComponent,
-    LoginComponent
+    LoginComponent,
+    AddCustomerComponent
   ],
   imports: [
     BrowserModule,

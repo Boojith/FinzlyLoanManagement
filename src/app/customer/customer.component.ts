@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Customer } from '../models/customer';
 import { LoanService } from '../service/loan.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-customer',
@@ -9,21 +10,30 @@ import { LoanService } from '../service/loan.service';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
-  
-  model:Customer;
-  constructor(private loanService:LoanService) { }
-  ngOnInit() {
-    this.loanService.getCustomerDetails('CUS8345').subscribe(data =>{  
-      this.model =data;  
-      console.log(data);
-      })  
-  }
 
-  onSubmit(form) {
-    console.log(form.value)
-    this.loanService.saveCustomer(form.value).subscribe(data=>{
-      
-      console.log('Save:'+data);
+  model: Customer;
+  customerForm: FormGroup;
+  customerId:string;
+  constructor(private loanService: LoanService, private formBuilder: FormBuilder,private authService:AuthService) {
+    this.customerId=this.authService.getCustomerId();
+    this.loanService.getCustomerDetails(this.customerId).subscribe(data => {
+      this.model = data;
+      this.customerForm = this.formBuilder.group({
+        customerId: [this.model.customerId,],
+        name: [this.model.name],
+        fathersName: [this.model.fathersName],
+        address: [this.model.address],
+        nominee: [this.model.nominee],
+        phone: [this.model.phone],
+        email: [this.model.email]
+      });
     });
   }
+  ngOnInit() {
+    this.customerForm = this.formBuilder.group({
+      customerId: [], name: [], fathersName: [], address: [], nominee: [], phone: [], email: []
+    });
+    this.customerForm.disable();
+  }
+  
 }

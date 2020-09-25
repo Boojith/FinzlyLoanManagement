@@ -20,4 +20,8 @@ this.authService.logoutUser();
 this.router.navigate(['login']);
 }
 
+signUp(){
+  this.router.navigate(['add-customer']);
+}
+
 }

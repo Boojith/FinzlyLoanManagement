@@ -37,8 +37,8 @@
                         <input type="date" formControlName="startDate" class="form-control" />
 
                     </div>
-                    <label>Loan Duration in Months:</label>
-                    <input type="range" name="loanDuration" id="loanDurationInputId" formControlName="loanDuration" value="0" min="0" max="30"
+                    <label>Loan Duration in Years:</label>
+                    <input type="range" name="loanDuration" id="loanDurationInputId" formControlName="loanDuration" value="0" min="0" max="30" 
                         oninput="durationOutputId.value = loanDurationInputId.value" (change)="setMaturityDate($event)">
                     <output name="durationOutput" id="durationOutputId">0</output>
                     <div class="form-group">
@@ -97,7 +97,8 @@
                         <p>*Please fill all fileds</p>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" [disabled]="loanForm.invalid">Apply</button>
+                        <button class="btn btn-primary" [disabled]="loanForm.invalid" style="margin: 8px;">Apply</button>
+                        <button class="btn btn-secondary" type="reset" (click)="onReset()">Reset</button>
                     </div>
                 </form>
             </div>
