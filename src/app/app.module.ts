@@ -8,7 +8,6 @@ import { CustomerComponent } from './customer/customer.component';
 import { PaymentScheduleComponent } from './payment-schedule/payment-schedule.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApplyLoanComponent } from './apply-loan/apply-loan.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './service/auth.service';
@@ -22,7 +21,6 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
     CustomerComponent,
     PaymentScheduleComponent,
     HomeComponent,
-    ApplyLoanComponent,
     LoginComponent,
     AddCustomerComponent,
   ],
