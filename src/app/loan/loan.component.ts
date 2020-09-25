@@ -106,10 +106,10 @@ export class LoanComponent implements OnInit {
     }
     this.loan.customerId = this.loanForm.get('customerId').value;
     this.loan.loanAmount = this.loanForm.get('loanAmount').value;
-    this.loan.tradeDate = this.loanForm.get('tradeDate').value;
-    this.loan.startDate = this.loanForm.get('startDate').value;
+    this.loan.tradeDate = this.formatDate(this.loanForm.get('tradeDate').value);
+    this.loan.startDate = this.formatDate(this.loanForm.get('startDate').value);
     this.loan.loanDuration = this.loanForm.get('loanDuration').value;
-    this.loan.maturityDate = this.loanForm.get('maturityDate').value;
+    this.loan.maturityDate = this.formatDate(this.loanForm.get('maturityDate').value);
     this.loan.interestRate = this.loanForm.get('interestRate').value;
     this.loan.paymentFrequency = this.loanForm.get('paymentFrequency').value;
     this.loan.paymentSchedule = this.loanForm.get('paymentSchedule').value;
@@ -125,8 +125,14 @@ export class LoanComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  onReset() {
-    this.submitted = false;
-    this.loanForm.reset();
-}
+   formatDate(input:string) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0],
+    month = datePart[1], 
+    day = datePart[2];
+  
+    return day+'-'+month+'-'+year;
+  }
+
+
 }
