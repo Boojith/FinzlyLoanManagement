@@ -54,7 +54,6 @@ export class PaymentScheduleComponent implements OnInit {
   }
 
   getClass(paymentStatus:string){
-    console.log('getClass');
     var classList='';
     if(paymentStatus=='PROJECTED'){
        classList = 'badge badge-primary'; 

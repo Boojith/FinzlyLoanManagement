@@ -55,11 +55,9 @@ export class HomeComponent implements OnInit {
     this.customerId=this.authService.getCustomerId();
     this.loanService.getLoanList(this.customerId).subscribe(data =>{  
       this.loans =data;  
-      console.log(data);
-      })  
+      });  
   }
   navigatePaymentSchedule(loanId:string){
-    console.log(loanId);
     this.router.navigate([`./payment-schedule`],{ queryParams: { loanId: loanId } });
   }
 }

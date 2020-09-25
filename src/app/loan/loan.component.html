@@ -1,107 +1,105 @@
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h3>Apply Loan:</h3>
-                <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
-
-                    <div class="form-group">
-                        <label>Customer ID:</label>
-                        <!-- <input type="text" formControlName="customerId" class="form-control" /> -->
-                        <input type="text" formControlName="customerId"  class="form-control" />
-                        <!-- <div *ngIf="submitted && f.customerId.errors" class="invalid-feedback">
-                            </div> -->
-                    </div>
-                    <!-- <div class="form-group">
-                        <label>Loan ID:</label>
-                        <input type="text" formControlName="loanId" class="form-control" />
-                        <div *ngIf="submitted && f.loanId.errors" class="invalid-feedback">
-                            </div>
-                    </div> -->
-                    <div class="form-group">
-                        <label>Loan Amount:</label>
-                        <input type="number" formControlName="loanAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.loanAmount.errors }"
-                        />
-                        <div *ngIf="submitted && f.loanAmount.errors" class="invalid-feedback">
-                            <div *ngIf="f.loanAmount.errors.required">*Loan Amount is required</div>
-                            <div *ngIf="f.loanAmount.errors.max || f.loanAmount.errors.min">Entered value within the range(1000-10000000)</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Trade Date:</label>
-                        <input type="date" formControlName="tradeDate" class="form-control" />
-
-                    </div>
-                    <div class="form-group">
-                        <label>Start Date:</label>
-                        <input type="date" formControlName="startDate" class="form-control" />
-
-                    </div>
-                    <label>Loan Duration in Years:</label>
-                    <input type="range" name="loanDuration" id="loanDurationInputId" formControlName="loanDuration" value="0" min="0" max="30" 
-                        oninput="durationOutputId.value = loanDurationInputId.value" (change)="setMaturityDate($event)">
-                    <output name="durationOutput" id="durationOutputId">0</output>
-                    <div class="form-group">
-                        <label>Maturity Date:</label>
-                        <input type="date" formControlName="maturityDate" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Interest Rate:</label>
-                        <input type="number" formControlName="interestRate" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label> Payment Frequency:</label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Monthly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Monthly</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Quarterly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Quarterly</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Half Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Half Yearly</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
-                            <span>Yearly</span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Payment Schedule:</label>
-                        <input type="number" formControlName="paymentSchedule" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Payment Term:</label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Interest Only" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
-                            <span>Interest Only</span>
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" value="Even Principal" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
-                            <span>Even Principal</span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Projected interest :</label>
-                        <input type="number" formControlName="projectedInterest" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <p>*Please fill all fileds</p>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" [disabled]="loanForm.invalid" style="margin: 8px;">Apply</button>
-                        <!-- <button class="btn btn-secondary" type="reset" (click)="onReset()">Reset</button> -->
-                    </div>
-                </form>
+<div class="card m-3">
+    <h5 class="card-header">Apply Loan</h5>
+    <div class="card-body">
+        <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>Customer ID:</label>
+                <input type="text" formControlName="customerId" class="form-control" />
             </div>
-        </div>
+            <div class="form-group">
+                <label>Loan Amount:</label>
+                <input type="number" formControlName="loanAmount" class="form-control" />
+                <div *ngIf="submitted && f.loanAmount.errors">
+                    <div *ngIf="f.loanAmount.errors.required" class="error-style">Loan Amount is required</div>
+                    <div *ngIf="f.loanAmount.errors.max || f.loanAmount.errors.min" class="error-style">Entered value within the range(1000-10000000)</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Trade Date:</label>
+                <input type="date" formControlName="tradeDate" class="form-control" min="2020-09-25" />
+                <div *ngIf="submitted && f.tradeDate.errors">
+                    <div *ngIf="f.tradeDate.errors.required" class="error-style">Trade Date is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Start Date:</label>
+                <input type="date" formControlName="startDate" class="form-control" min="2020-09-25" />
+                <div *ngIf="submitted && f.startDate.errors">
+                    <div *ngIf="f.startDate.errors.required" class="error-style">Start Date is required</div>
+                </div>
+            </div>
+            <label>Loan Duration in Years:</label>
+            <div class="form-group">
+                <input type="range" name="loanDuration" id="loanDurationInputId" formControlName="loanDuration" value="0" min="0" max="30"
+                    oninput="durationOutputId.value = loanDurationInputId.value" (change)="setMaturityDate($event)">
+                <output name="durationOutput" id="durationOutputId">0</output>
+                <div *ngIf="submitted && f.loanDuration.errors">
+                    <div *ngIf="f.loanDuration.errors.required" class="error-style">Select Loan Duration</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Maturity Date:</label>
+                <input type="date" formControlName="maturityDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Interest Rate(in %):</label>
+                <input type="number" formControlName="interestRate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label> Payment Frequency:</label>
+                <br>
+                <label>
+                    <input type="radio" value="Monthly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)"> Monthly
+                </label>
+                <br>
+                <label>
+                    <input type="radio" value="Quarterly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                    <span>Quarterly</span>
+                </label>
+                <br>
+                <label>
+                    <input type="radio" value="Half Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                    <span>Half Yearly</span>
+                </label>
+                <br>
+                <label>
+                    <input type="radio" value="Yearly" formControlName="paymentFrequency" (change)="calculatepaymentSchedule($event)">
+                    <span>Yearly</span>
+                </label>
+                <div *ngIf="submitted && f.paymentFrequency.errors">
+                    <div *ngIf="f.paymentFrequency.errors.required" class="error-style">Payment Frequency is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Payment Schedule:</label>
+                <input type="number" formControlName="paymentSchedule" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Payment Term:</label>
+                <br>
+                <label>
+                    <input type="radio" value="Interest Only" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
+                    <span>Interest Only</span>
+                </label>
+                <br>
+                <label>
+                    <input type="radio" value="Even Principal" formControlName="paymentTerm" (change)="calculateprojectedInterest($event)">
+                    <span>Even Principal</span>
+                </label>
+                <div *ngIf="submitted && f.paymentTerm.errors">
+                    <div *ngIf="f.paymentTerm.errors.required" class="error-style">Payment Term is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Projected interest :</label>
+                <input type="number" formControlName="projectedInterest" class="form-control" />
+            </div>
+            <div class="form-group">
+                <p>*Please fill all fileds</p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" style="margin: 8px;">Apply</button>
+            </div>
+        </form>
     </div>
 </div>

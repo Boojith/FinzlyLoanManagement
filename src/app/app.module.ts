@@ -24,7 +24,7 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
     HomeComponent,
     ApplyLoanComponent,
     LoginComponent,
-    AddCustomerComponent
+    AddCustomerComponent,
   ],
   imports: [
     BrowserModule,

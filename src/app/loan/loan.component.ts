@@ -28,15 +28,15 @@ export class LoanComponent implements OnInit {
     this.loanForm = this.formBuilder.group({
       customerId: [{ value:this.customerId, disabled: true }],
       loanAmount: ['', [Validators.required, Validators.max(10000000), Validators.min(1000)]],
-      tradeDate: [Validators.required],
-      startDate: [Validators.required],
-      loanDuration: [''],
+      tradeDate: ['',Validators.required],
+      startDate: ['',Validators.required],
+      loanDuration: ['',Validators.required],
       maturityDate: [{ value: new Date(), disabled: true }],
       interestRate: [{ value: 10, disabled: true }],
       paymentFrequency: ['', [Validators.required]],
-      paymentSchedule: [0, []],
+      paymentSchedule: [{ value: 0, disabled: true }],
       paymentTerm: ['', [Validators.required]],
-      projectedInterest: [0, []],
+      projectedInterest: [{ value: 0, disabled: true }],
     });
   }
 
@@ -78,7 +78,6 @@ export class LoanComponent implements OnInit {
   }
 
   calculateprojectedInterest(event) {
-    console.log(event.target.value);
     var value = event.target.value;
     var principal = this.loanForm.get('loanAmount').value;
     var totalYears = this.loanForm.get('loanDuration').value;
@@ -116,9 +115,6 @@ export class LoanComponent implements OnInit {
     this.loan.paymentTerm = this.loanForm.get('paymentTerm').value;
     this.loan.projectedInterest = this.loanForm.get('projectedInterest').value;
     
-    console.log(this.loan);
-
-
     this.loanService.saveLoan(this.loan).subscribe(data => {
       console.log('Save Loan:' + data);
     });

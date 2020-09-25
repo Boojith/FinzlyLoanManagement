@@ -10,18 +10,17 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'FinzlyLoanManagement';
 
-  constructor (private authService:AuthService, 
-    private router:Router) {
-}
+  constructor(private authService: AuthService,
+    private router: Router) {
+  }
 
-logout() {
-  console.log('logout');
-this.authService.logoutUser();
-this.router.navigate(['login']);
-}
+  logout() {
+    this.authService.logoutUser();
+    this.router.navigate(['login']);
+  }
 
-signUp(){
-  this.router.navigate(['add-customer']);
-}
+  signUp() {
+    this.router.navigate(['add-customer']);
+  }
 
 }
