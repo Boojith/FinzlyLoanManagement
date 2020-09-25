@@ -46,15 +46,10 @@ export class LoanComponent implements OnInit {
   setMaturityDate(event) {
     var range = (event.target.value) * 12;
     var startDate = this.loanForm.get('startDate').value;
-
-    this.date=new Date();
-    // let latest_date =this.datepipe.transform(this.date, 'yyyy-MM-dd');
-    // var start=new Date(startDate[0], startDate[1] - 1, startDate[2])
-    // console.log("Start Date:"+startDate);
-    // console.log("Maturity Date:"+new Date(start.setMonth(new Date().getMonth() +  parseInt(range))));   
+    var date = new Date(startDate);
     if (range != 0) {
       this.loanForm.patchValue({
-        maturityDate: new Date(new Date().setMonth(new Date().getMonth() + range)).toISOString().substring(0, 10)
+        maturityDate: new Date(date.setMonth(date.getMonth() + range)).toISOString().substring(0, 10)
       });
     }
 
