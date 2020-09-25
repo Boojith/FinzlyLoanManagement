@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
     username:string;
     password:string;
     retUrl:string="home";
+    loggedIn:boolean;
  
     constructor(private authService: AuthService, 
                 private router: Router, 
@@ -23,17 +24,19 @@ export class LoginComponent implements OnInit {
         this.activatedRoute.queryParamMap
                 .subscribe(params => {
             this.retUrl = params.get('retUrl'); 
+            console.log( 'LoginComponent/ngOnInit '+ this.retUrl);
         });
     }
  
-    onFormSubmit(loginForm) {
-       this.authService.login(loginForm.value.username, loginForm.value.password).subscribe(data => {
+   async onFormSubmit(loginForm) {
+        this.loggedIn=await  this.authService.login(loginForm.value.username, loginForm.value.password);
+       if(this.loggedIn){
            console.log( 'return to '+ this.retUrl);
            if (this.retUrl!=null) {
             this.router.navigate( [this.retUrl]);
        } else {
             this.router.navigate( ['home']);
        }
-       });
+       }
     }
 } 
