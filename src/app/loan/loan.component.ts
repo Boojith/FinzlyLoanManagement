@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoanService } from '../service/loan.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./loan.component.css']
 })
 export class LoanComponent implements OnInit {
-
+  @ViewChild('alert', { static: true }) alert: ElementRef;
   loanForm: FormGroup;
   customerId:string;
   loan: Loan = new Loan();
@@ -118,9 +118,14 @@ export class LoanComponent implements OnInit {
     this.loanService.saveLoan(this.loan).subscribe(data => {
       console.log('Save Loan:' + data);
     });
-    this.router.navigate(['home']);
+    this.alert.nativeElement.classList.add('show');
+   this.resetForm();
+    // this.router.navigate(['home']);
   }
-
+   resetForm(){
+    this.loanForm.reset();
+    this.submitted=false;
+   }
    formatDate(input:string) {
     var datePart = input.match(/\d+/g),
     year = datePart[0],
@@ -130,5 +135,9 @@ export class LoanComponent implements OnInit {
     return day+'-'+month+'-'+year;
   }
 
+
+  closeAlert() {
+    this.alert.nativeElement.classList.remove('show');
+  }
 
 }
