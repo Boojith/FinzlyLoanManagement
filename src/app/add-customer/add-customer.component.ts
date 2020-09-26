@@ -41,7 +41,6 @@ export class AddCustomerComponent implements OnInit {
         }
         this.loanService.saveCustomer(this.registerForm.value).subscribe();
         this.router.navigate(['login']);
-        // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
        
     }
 

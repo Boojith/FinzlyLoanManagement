@@ -6,39 +6,6 @@ import { LoanService } from '../service/loan.service';
 import { AuthService } from '../service/auth.service';
 
 
-const Loans: Loan[] = [
-  {
-    customerId:'',
-     loanId: 'LUS13566',
-     loanAmount: 1200000,
-     tradeDate:'21-09-1996',
-     startDate: '21-09-1996',
-     maturityDate: '21-09-1997',
-     loanDuration:12,
-     paymentFrequency: 'Quarterly',
-     paymentSchedule: 4,
-     interestRate: 6.5,
-     paymentTerm: 'Even Principal',
-     projectedInterest: 20000
-  },
-  {
-    customerId:'',
-     loanId: 'LUS13566',
-     loanAmount: 1200000,
-     tradeDate:'21-09-1996',
-     startDate: '21-09-1996',
-     maturityDate: '21-09-1997',
-     loanDuration:12,
-     paymentFrequency: 'Quarterly',
-     paymentSchedule: 4,
-     interestRate: 6.5,
-     paymentTerm: 'Even Principal',
-     projectedInterest: 20000
-  }
-  
-];
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

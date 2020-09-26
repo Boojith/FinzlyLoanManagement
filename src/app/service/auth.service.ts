@@ -16,13 +16,6 @@ export class AuthService {
   }
 
   async  login(username: string, password: string) {
-    // this.loanService.verifyCustomer(username, password).subscribe(data => {
-    //   this.customer = data;
-    //   if (this.customer.customerId != null) {
-    //     this.isloggedIn = true;
-    //   }
-    // });
-    // return of(this.isloggedIn);
     this.customer = await this.loanService.verifyCustomer(username, password).toPromise();
     if(this.customer .customerId!=null){
       this.isloggedIn = true;
