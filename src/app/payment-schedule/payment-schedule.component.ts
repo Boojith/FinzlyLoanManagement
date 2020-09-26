@@ -38,9 +38,7 @@ export class PaymentScheduleComponent implements OnInit {
   }
 
   changePaymentStatus(event,paymentId){
-    console.log("event:"+event);
-    console.log("paymentId:"+paymentId);
-    this.loanService.updatePaymentStatus(4).subscribe(()=>{
+    this.loanService.updatePaymentStatus(paymentId).subscribe(()=>{
       console.log("Payment has been updated");
       this.ngOnInit();
     });
