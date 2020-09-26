@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentSchedule } from '../models/paymentSchedule';
 import { ActivatedRoute } from '@angular/router';
 import { LoanService } from '../service/loan.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-payment-schedule',
@@ -20,7 +21,7 @@ export class PaymentScheduleComponent implements OnInit {
       this.loanId=params['loanId'];
       this.loanService.getPaymentSchedule(this.loanId).subscribe(data=>
       {
-        this.payments=data;
+        this.payments=data.sort(this.compare);
       })
     });
   }
@@ -42,6 +43,20 @@ export class PaymentScheduleComponent implements OnInit {
       console.log("Payment has been updated");
       this.ngOnInit();
     });
+  }
+
+   compare( a, b ) {
+    var a_part =a.paymentDate.split("-");
+    var dateObject1 = new Date(+a_part[2], a_part[1] - 1, +a_part[1]);
+    var b_part =b.paymentDate.split("-");
+    var dateObject2 = new Date(+b_part[2], b_part[1] - 1, +b_part[1]);
+    if (dateObject1.valueOf() < dateObject2.valueOf() ){
+      return -1;
+    }
+    if ( dateObject1.valueOf() > dateObject2.valueOf() ){
+      return 1;
+    }
+    return 0;
   }
   
 }
