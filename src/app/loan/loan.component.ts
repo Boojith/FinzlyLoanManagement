@@ -86,9 +86,10 @@ export class LoanComponent implements OnInit {
 
     if (value != undefined) {
       var interestAmount = 0;
+      var perPaymentPrincipal=(principal / paymentSchedule);
       for (var i = 1; i <= paymentSchedule; i++) {
         interestAmount = interestAmount + (principal * (totalYears / paymentSchedule) * interestRate) / 100;
-        principal = principal - (principal / paymentSchedule);
+        principal = principal - perPaymentPrincipal;
       }
     }
 
@@ -120,7 +121,6 @@ export class LoanComponent implements OnInit {
     });
     this.alert.nativeElement.classList.add('show');
    this.resetForm();
-    // this.router.navigate(['home']);
   }
    resetForm(){
     this.loanForm.reset();
