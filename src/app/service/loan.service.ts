@@ -22,7 +22,11 @@ export class LoanService {
   }
 
   getPaymentSchedule(loanId: string): Observable<PaymentSchedule[]> {
-    return this.http.get<PaymentSchedule[]>(`${this.baseUrl}` + '/loan/paymentSchedule/' + `${loanId}`);
+    return this.http.get<PaymentSchedule[]>(`${this.baseUrl}` + '/loan/payment-schedule/' + `${loanId}`);
+  }
+
+  updatePaymentStatus(paymentId){
+    return this.http.put<PaymentSchedule>(`${this.baseUrl}`+`update-payment/`+`${paymentId}`,null);
   }
 
   saveLoan(loan: object): Observable<Loan> {

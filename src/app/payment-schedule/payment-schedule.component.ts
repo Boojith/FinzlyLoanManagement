@@ -3,34 +3,6 @@ import { PaymentSchedule } from '../models/paymentSchedule';
 import { ActivatedRoute } from '@angular/router';
 import { LoanService } from '../service/loan.service';
 
-// const payments: PaymentSchedule[] = [
-//   {
-//      loanId: '',
-//      paymentDate: '21-12-1996',
-//      principal: 200000,
-//      projectedInterest: 3000,
-//      paymentStatus: 'PROJECTED',
-//      paymentAmount: 21000
-//   },
-//   {
-//     loanId: '',
-//     paymentDate: '21-03-1997',
-//     principal: 180000,
-//     projectedInterest:6000 ,
-//     paymentStatus: 'AWAITINGPAYMENT',
-//     paymentAmount: 21000
-//   },
-//   {
-//     loanId: '',
-//     paymentDate: '21-06-1997',
-//     principal: 180000,
-//     projectedInterest:6000 ,
-//     paymentStatus: 'PAID',
-//     paymentAmount: 21000
-//   }
-// ];
-
-
 @Component({
   selector: 'app-payment-schedule',
   templateUrl: './payment-schedule.component.html',
@@ -63,6 +35,15 @@ export class PaymentScheduleComponent implements OnInit {
         classList = 'badge badge-success';
     }
     return classList;
+  }
+
+  changePaymentStatus(event,paymentId){
+    console.log("event:"+event);
+    console.log("paymentId:"+paymentId);
+    this.loanService.updatePaymentStatus(4).subscribe(()=>{
+      console.log("Payment has been updated");
+      this.ngOnInit();
+    });
   }
   
 }
